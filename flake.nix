@@ -1,12 +1,11 @@
 {
   description = "Description for the project";
 
-  outputs =
-    { conflake, ... }@inputs:
+  outputs = {conflake, ...} @ inputs:
     conflake ./. {
       inherit inputs;
 
-      devShell.packages = { pkgs }: with pkgs; [ hello ];
+      devShell.packages = {pkgs}: with pkgs; [rustc cargo];
     };
 
   inputs = {
