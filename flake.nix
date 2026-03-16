@@ -4,8 +4,9 @@
   outputs = {conflake, ...} @ inputs:
     conflake ./. {
       inherit inputs;
-
-      devShell.packages = {pkgs}: with pkgs; [rustc cargo];
+      packages = {
+        default = pkgs: pkgs.vykar;
+      };
     };
 
   inputs = {
