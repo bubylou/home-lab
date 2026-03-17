@@ -6,13 +6,13 @@
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "vykar";
-  version = "0.11.8";
+  version = "0.12.7";
 
   src = fetchFromGitHub {
     owner = "borgbase";
     repo = "vykar";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-iEG//jX7CEgPlW5cnCRq8n60V3ASjr/WkGTOXfRK010=";
+    hash = "sha256-YUAGVrUGye9LlMNCfkFbxFLR5Le9k7E6Vx/y5o66uCY=";
   };
 
   cargoLock.lockFile = finalAttrs.src + "/Cargo.lock";
