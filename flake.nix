@@ -5,6 +5,7 @@
     conflake ./. {
       inherit inputs;
       checks = {
+        lidarr = pkgs: pkgs.lidarr;
         radarr = pkgs: pkgs.radarr;
         prowlarr = pkgs: pkgs.prowlarr;
         sonarr = pkgs: pkgs.sonarr;
