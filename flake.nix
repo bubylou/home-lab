@@ -9,6 +9,7 @@
         radarr = pkgs: pkgs.radarr;
         prowlarr = pkgs: pkgs.prowlarr;
         sonarr = pkgs: pkgs.sonarr;
+        unpackerr = pkgs: pkgs.unpackerr;
         vykar = pkgs: pkgs.vykar;
       };
     };
