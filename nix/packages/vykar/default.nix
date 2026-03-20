@@ -10,7 +10,7 @@ rustPlatform.buildRustPackage (finalAttrs: {
 
   src = fetchFromGitHub {
     owner = "borgbase";
-    repo = "vykar";
+    repo = finalAttrs.pname;
     tag = "v${finalAttrs.version}";
     hash = "sha256-YUAGVrUGye9LlMNCfkFbxFLR5Le9k7E6Vx/y5o66uCY=";
   };
@@ -30,9 +30,9 @@ rustPlatform.buildRustPackage (finalAttrs: {
   ];
 
   meta = {
-    description = " Fast, encrypted, deduplicated backups in Rust — with friendly YAML config, a desktop GUI, and support for S3, custom REST and SFTP storage.";
+    description = "Fast, encrypted, deduplicated backups in Rust — with friendly YAML config, a desktop GUI, and support for S3, custom REST and SFTP storage.";
     homepage = "https://github.com/borgbase/vykar";
     license = lib.licenses.gpl3;
-    maintainers = [];
+    maintainers = with lib.maintainers; [bubylou];
   };
 })
