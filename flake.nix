@@ -4,8 +4,13 @@
   outputs = {conflake, ...} @ inputs:
     conflake ./. {
       inherit inputs;
-      packages = {
-        default = pkgs: pkgs.vykar;
+      checks = {
+        lidarr = pkgs: pkgs.lidarr;
+        radarr = pkgs: pkgs.radarr;
+        prowlarr = pkgs: pkgs.prowlarr;
+        sonarr = pkgs: pkgs.sonarr;
+        unpackerr = pkgs: pkgs.unpackerr;
+        vykar = pkgs: pkgs.vykar;
       };
     };
 
