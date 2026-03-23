@@ -4,11 +4,11 @@
   lib,
   ...
 }: let
-  cfg = config.services.radarr;
+  cfg = config.home-lab.radarr;
   servarr = import ./settings-options.nix {inherit lib pkgs;};
 in {
   options = {
-    services.radarr = {
+    home-lab.radarr = {
       enable = lib.mkEnableOption "Radarr, a UsetNet/BitTorrent movie downloader";
 
       package = lib.mkPackageOption pkgs "radarr" {};

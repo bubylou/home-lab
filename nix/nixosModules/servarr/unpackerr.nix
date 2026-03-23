@@ -4,10 +4,10 @@
   lib,
   ...
 }: let
-  cfg = config.services.unpackerr;
+  cfg = config.homw-lab.unpackerr;
 in {
   options = {
-    services.unpackerr = {
+    home-lab.unpackerr = {
       enable = lib.mkEnableOption "Unpackerr, archive extraction daemon";
 
       package = lib.mkPackageOption pkgs "unpackerr" {};

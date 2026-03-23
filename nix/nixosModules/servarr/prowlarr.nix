@@ -4,12 +4,12 @@
   lib,
   ...
 }: let
-  cfg = config.services.prowlarr;
+  cfg = config.home-lab.prowlarr;
   servarr = import ./settings-options.nix {inherit lib pkgs;};
   isCustomDataDir = cfg.dataDir != "/var/lib/prowlarr";
 in {
   options = {
-    services.prowlarr = {
+    home-lab.prowlarr = {
       enable = lib.mkEnableOption "Prowlarr, an indexer manager/proxy for Torrent trackers and Usenet indexers";
 
       dataDir = lib.mkOption {

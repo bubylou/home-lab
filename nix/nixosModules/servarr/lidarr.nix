@@ -4,11 +4,11 @@
   lib,
   ...
 }: let
-  cfg = config.services.lidarr;
+  cfg = config.home-lab.lidarr;
   servarr = import ./settings-options.nix {inherit lib pkgs;};
 in {
   options = {
-    services.lidarr = {
+    home-lab.lidarr = {
       enable = lib.mkEnableOption "Lidarr, a Usenet/BitTorrent music downloader";
 
       dataDir = lib.mkOption {

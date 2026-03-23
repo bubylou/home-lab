@@ -5,11 +5,11 @@
   utils,
   ...
 }: let
-  cfg = config.services.sonarr;
+  cfg = config.home-lab.sonarr;
   servarr = import ./settings-options.nix {inherit lib pkgs;};
 in {
   options = {
-    services.sonarr = {
+    home-lab.sonarr = {
       enable = lib.mkEnableOption "Sonarr";
 
       dataDir = lib.mkOption {
