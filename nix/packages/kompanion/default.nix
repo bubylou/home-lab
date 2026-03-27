@@ -1,16 +1,18 @@
 {
+  postgresql,
+  postgresqlTestHook,
   lib,
   fetchFromGitHub,
   buildGoModule,
 }:
 buildGoModule (finalAttrs: {
   pname = "kompanion";
-  version = "0.0.4";
+  version = "v0.0.4";
 
   src = fetchFromGitHub {
     owner = "vanadium23";
-    repo = "${finalAttrs.pname}";
-    tag = "v${finalAttrs.version}";
+    repo = finalAttrs.pname;
+    tag = finalAttrs.version;
     hash = "sha256-abYrKijxKcx9DFwIp+++tlHZgaUNkeSRCrFoRRstZuI=";
   };
 
@@ -20,6 +22,17 @@ buildGoModule (finalAttrs: {
   ldflags = [
     "-X main.version=${finalAttrs.version}"
   ];
+
+  nativeCheckInputs = [
+    postgresql
+    postgresqlTestHook
+  ];
+
+  env = {
+    KOMPANION_PG_URL = "postgres://$PGUSER@$PGHOST/$PGDATABASE";
+    KOMPANION_AUTH_USERNAME = "user";
+    KOMPANION_AUTH_PASSWORD = "password";
+  };
 
   meta = {
     description = "a self hosted backend for bookworms, tightly coupled with KOReader";
