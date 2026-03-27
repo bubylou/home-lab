@@ -1,12 +1,20 @@
 {
-  pkgs,
+  pkg-config,
+  llvmPackages,
+  git,
+  cmake,
+  sqlite,
+  ncurses,
+  openssl,
+  libpq,
+  libiconv,
   rustPlatform,
   lib,
   fetchFromGitHub,
 }: let
   owner = "dan-online";
   pname = "autopulse";
-  version = "1.6.0";
+  version = "v1.6.0";
   hash = "sha256-Fmp8MyXCeeDbusfZiCUauZGveZ2AdCX6Z6WBAldh3Ro=";
 in
   rustPlatform.buildRustPackage (finalAttrs: {
@@ -14,11 +22,11 @@ in
 
     src = fetchFromGitHub {
       repo = finalAttrs.pname;
-      tag = "v${finalAttrs.version}";
+      tag = finalAttrs.version;
       inherit owner hash;
     };
 
-    nativeBuildInputs = with pkgs; [
+    nativeBuildInputs = [
       pkg-config
       llvmPackages.clang
       llvmPackages.libclang
@@ -26,7 +34,7 @@ in
       cmake
     ];
 
-    buildInputs = with pkgs; [
+    buildInputs = [
       sqlite
       ncurses
       openssl
@@ -42,7 +50,11 @@ in
     cargoLock.lockFile = finalAttrs.src + "/Cargo.lock";
 
     meta = {
-      description = "💫 automated lightweight service that updates media servers like Plex and Jellyfin based on notifications from media organizers like Sonarr and Radarr";
+      description = "service that updates media servers";
+      longDescription = ''        💫 automated lightweight service that
+                updates media servers like Plex and Jellyfin based on notifications
+                from media organizers like Sonarr and Radarr
+      '';
       homepage = "https://github.com/dan-online/autopulse";
       license = lib.licenses.mit;
       maintainers = with lib.maintainers; [bubylou];

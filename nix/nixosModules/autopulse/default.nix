@@ -60,7 +60,7 @@ in {
 
     users.users = lib.mkIf (cfg.user == "autopulse") {
       autopulse = {
-        group = cfg.group;
+        inherit (cfg) group;
         home = cfg.dataDir;
         uid = config.ids.uids.autopulse;
       };

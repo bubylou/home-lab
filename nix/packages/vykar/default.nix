@@ -1,30 +1,35 @@
 {
-  pkgs,
+  fontconfig,
+  pkg-config,
+  glib,
+  gtk3,
+  libayatana-appindicator,
+  xdotool,
   rustPlatform,
   lib,
   fetchFromGitHub,
 }:
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "vykar";
-  version = "0.12.7";
+  version = "v0.12.7";
 
   src = fetchFromGitHub {
     owner = "borgbase";
     repo = finalAttrs.pname;
-    tag = "v${finalAttrs.version}";
+    tag = finalAttrs.version;
     hash = "sha256-YUAGVrUGye9LlMNCfkFbxFLR5Le9k7E6Vx/y5o66uCY=";
   };
 
   cargoLock.lockFile = finalAttrs.src + "/Cargo.lock";
 
-  buildInputs = with pkgs; [
+  buildInputs = [
     glib
     gtk3
     libayatana-appindicator
     xdotool
   ];
 
-  nativeBuildInputs = with pkgs; [
+  nativeBuildInputs = [
     fontconfig
     pkg-config
   ];
