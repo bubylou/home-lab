@@ -47,7 +47,7 @@ in
       "sqlite"
     ];
 
-    cargoLock.lockFile = finalAttrs.src + "/Cargo.lock";
+    cargoHash = "sha256-4gFQFftHVnYzBvQD5OjcO7kNKQA+nrmj2+VQBM2G2RU=";
 
     meta = {
       description = "service that updates media servers";
