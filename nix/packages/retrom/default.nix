@@ -10,12 +10,13 @@
   nodejs,
   libsoup_3,
   lib,
-  glib,
   gtk3,
+  glib-networking,
   fetchPnpmDeps,
   fetchFromGitHub,
   faketty,
   cargo-tauri,
+  buildFHSEnv,
 }: let
   pname = "retrom";
   version = "v0.8.0";
@@ -35,8 +36,8 @@
     fetcherVersion = 3;
     hash = pnpmHash;
   };
-in
-  rustPlatform.buildRustPackage {
+
+  retrom = rustPlatform.buildRustPackage {
     inherit pname version src cargoHash pnpmDeps;
     buildAndTestSubdir = "packages/client";
 
@@ -55,8 +56,8 @@ in
       webkitgtk_4_1
       openssl
       libsoup_3
-      glib
       gtk3
+      glib-networking
     ];
 
     buildPhase = ''
@@ -68,5 +69,34 @@ in
       description = "A centralized game library/collection management service with a focus on emulation";
       homepage = "https://github.com/JMBeresford/retrom";
       license = lib.licenses.gpl3;
+      platforms = lib.platforms.linux;
+      mainProgram = "Retrom";
     };
+  };
+in
+  buildFHSEnv {
+    inherit (retrom) pname version meta;
+    executableName = retrom.meta.mainProgram;
+    runScript = lib.getExe retrom;
+
+    targetPkgs = pkgs:
+      with pkgs; [
+        zstd.out
+        zlib
+        tzdata
+        readline
+        python311
+        postgresql.lib
+        openssl.out
+        lz4.lib
+        libxslt.out
+        libxml2_13.out
+        libossp_uuid
+        krb5.lib
+        glibc
+      ];
+
+    extraInstallCommands = ''
+      ln -s ${retrom}/share $out
+    '';
   }
