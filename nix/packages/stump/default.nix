@@ -12,7 +12,6 @@
 }: let
   pname = "stump";
   version = "v0.1.0";
-  cargoHash = "sha256-qcNA4u3sjHTJnvA3KUfjEuYxjhv6tGYg85dZiiDUJPc=";
   gitHash = "sha256-FavhqSckX/d3UAxLMUb3EwrNolUjZrkZNISP7GwMR58=";
   yarnHash = "sha256-mG9kTS5bNgrjYkltAByw0kLmR1tFNSedrbkBCvDRxiA=";
 
@@ -43,7 +42,7 @@
   };
 
   backend = rustPlatform.buildRustPackage {
-    inherit pname src version cargoHash;
+    inherit pname src version;
 
     preConfigure = ''
       export GIT_REV=${lib.substring 0 8 version}
@@ -59,6 +58,11 @@
     ];
 
     buildAndTestSubdir = "apps/server";
+
+    cargoLock = {
+      lockFile = src + "/Cargo.lock";
+      allowBuiltinFetchGit = true;
+    };
   };
 in
   stdenv.mkDerivation {
