@@ -7,6 +7,7 @@
       checks = {
         lidarr = pkgs: pkgs.lidarr;
         radarr = pkgs: pkgs.radarr;
+        retrom = pkgs: pkgs.retrom;
         prowlarr = pkgs: pkgs.prowlarr;
         sonarr = pkgs: pkgs.sonarr;
         unpackerr = pkgs: pkgs.unpackerr;
