@@ -24,39 +24,22 @@
 
   frontend = stdenv.mkDerivation {
     inherit pname src version;
-
     yarnBuildScript = "web build";
     yarnOfflineCache = fetchYarnDeps {
       yarnLock = src + "/yarn.lock";
       hash = yarnHash;
     };
 
-    nativeBuildInputs = [
-      yarnConfigHook
-      nodejs
-    ];
-
-    installPhase = ''
-      mv apps/web/dist $out
-    '';
+    nativeBuildInputs = [yarnConfigHook nodejs];
+    installPhase = "mv apps/web/dist $out";
   };
 
   backend = rustPlatform.buildRustPackage {
     inherit pname src version;
+    preConfigure = "export GIT_REV=${lib.substring 0 8 version}";
 
-    preConfigure = ''
-      export GIT_REV=${lib.substring 0 8 version}
-    '';
-
-    nativeBuildInputs = [
-      pkg-config
-      makeWrapper
-    ];
-
-    buildInputs = [
-      openssl
-    ];
-
+    nativeBuildInputs = [pkg-config makeWrapper];
+    buildInputs = [openssl];
     buildAndTestSubdir = "apps/server";
 
     cargoLock = {
@@ -67,10 +50,7 @@
 in
   stdenv.mkDerivation {
     inherit pname src version;
-
-    nativeBuildInputs = [
-      makeWrapper
-    ];
+    nativeBuildInputs = [makeWrapper];
 
     installPhase = ''
       mkdir -p $out/bin
