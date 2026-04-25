@@ -36,6 +36,10 @@
           };
         };
 
+        nixosModules.default = import [
+          ./modules/vintagestory
+        ];
+
         checks = {
           inherit (self.packages.${system}) quien;
           inherit (self.packages.${system}) stump;
