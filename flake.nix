@@ -15,15 +15,18 @@
         packages = rec {
           default = quien;
           quien = pkgs.callPackage ./packages/quien {};
+          stump = pkgs.callPackage ./packages/stump {};
         };
 
         checks = {
           inherit (self.packages.${system}) quien;
+          inherit (self.packages.${system}) stump;
         };
 
         apps = rec {
           default = quien;
           quien = flake-utils.lib.mkApp {drv = self.packages.${system}.quien;};
+          stump = flake-utils.lib.mkApp {drv = self.packages.${system}.stump;};
         };
       }
     );
