@@ -1,41 +1,36 @@
 {
-  config,
-  lib,
   pkgs,
+  lib,
+  config,
   ...
 }: let
-  cfg = config.vintagestory-server;
+  cfg = config.home-lab.vintagestory-server;
   inherit (lib) mkIf mkOption types;
 in {
   options.vintagestory-server = {
     enable = mkOption {
       type = types.bool;
       default = false;
-      description = "Whether to enable the Vintage Story server";
     };
 
     package = mkOption {
       type = types.package;
       default = pkgs.vintagestory-server;
-      description = "The Vintage Story server package to use";
     };
 
     user = mkOption {
       type = types.str;
       default = "vintagestory";
-      description = "The user to run the Vintage Story server as";
     };
 
     group = mkOption {
       type = types.str;
       default = "vintagestory";
-      description = "The group to run the Vintage Story server as";
     };
 
     dataPath = mkOption {
       type = types.str;
       default = "/var/lib/vintagestory/data";
-      description = "The path to the Vintage Story server data directory";
     };
   };
 
