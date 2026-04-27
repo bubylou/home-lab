@@ -28,6 +28,7 @@
             x11Support = false;
             waylandSupport = true;
           };
+          vs-launcher = pkgs.callPackage ./packages/vs-launcher {};
         };
 
         checks = {
@@ -35,6 +36,7 @@
           inherit (self.packages.${system}) stump;
           inherit (self.packages.${system}) vintagestory;
           inherit (self.packages.${system}) vintagestory-wayland;
+          inherit (self.packages.${system}) vs-launcher;
         };
 
         apps = rec {
@@ -43,6 +45,7 @@
           stump = flake-utils.lib.mkApp {drv = self.packages.${system}.stump;};
           vintagestory = flake-utils.lib.mkApp {drv = self.packages.${system}.vintagestory;};
           vintagestory-wayland = flake-utils.lib.mkApp {drv = self.packages.${system}.vintagestory-wayland;};
+          vs-launcher = flake-utils.lib.mkApp {drv = self.packages.${system}.vs-launcher;};
         };
       }
     );
