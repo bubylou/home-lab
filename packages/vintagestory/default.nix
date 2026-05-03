@@ -21,11 +21,11 @@
   cairo,
 }: let
   pname = "vintagestory";
-  version = "1.22.0";
+  version = "1.22.2";
 
   src = fetchurl {
     url = "https://cdn.vintagestory.at/gamefiles/stable/vs_client_linux-x64_${version}.tar.gz";
-    hash = "sha256-c90Mb5hyL8StLFrKokAgER/u6l3jhhluP5ErgVs4geI=";
+    hash = "sha256-caLSOm/WXpXrjC1az72Nc0XDWOpWB2R9iVq8ShDEZgU=";
   };
 
   runtimeLibs =
