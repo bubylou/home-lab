@@ -36,10 +36,6 @@
           };
         };
 
-        nixosModules.default = import [
-          ./modules/vintagestory
-        ];
-
         checks = {
           inherit (self.packages.${system}) quien;
           inherit (self.packages.${system}) stump;
@@ -57,5 +53,26 @@
           vintagestory-wayland = flake-utils.lib.mkApp {drv = self.packages.${system}.vintagestory-wayland;};
         };
       }
-    );
+    )
+    // {
+      nixosModules = {
+        vintagestory-server = import ./modules/vintagestory-server;
+      };
+
+      nixosConfigurations.container = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          self.nixosModules.vintagestory-server
+          ({pkgs, ...}: {
+            boot.isContainer = true;
+            networking.hostName = "testing";
+
+            services.vintagestory-server = with self.packages.${pkgs.stdenv.hostPlatform.system}; {
+              enable = true;
+              package = vintagestory-server;
+            };
+          })
+        ];
+      };
+    };
 }
