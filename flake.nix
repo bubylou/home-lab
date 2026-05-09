@@ -8,7 +8,13 @@
     nixpkgs,
     flake-utils,
   }:
-    flake-utils.lib.eachDefaultSystem (
+    {
+      nixosModules = rec {
+        default = vintagestory-server;
+        vintagestory-server = import ./modules/vintagestory-server;
+      };
+    }
+    // flake-utils.lib.eachDefaultSystem (
       system: let
         inherit (nixpkgs) lib;
         pkgs = import nixpkgs {
@@ -35,10 +41,6 @@
             waylandSupport = true;
           };
         };
-
-        nixosModules.default = import [
-          ./modules/vintagestory
-        ];
 
         checks = {
           inherit (self.packages.${system}) quien;

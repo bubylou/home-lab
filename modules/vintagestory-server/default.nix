@@ -1,40 +1,34 @@
 {
+  self,
   pkgs,
   lib,
   config,
   ...
 }: let
   cfg = config.home-lab.vintagestory-server;
-  inherit (lib) mkIf mkOption types;
+  pkg = self.packages.${pkgs.stdenv.hostPlatform.system}.package.vintagestory-server;
 in {
-  options.vintagestory-server = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
+  options.home-lab.vintagestory-server = {
+    enable = lib.mkEnableOption "Vintagestory server";
+    package = lib.mkPackageOption pkg {};
 
-    package = mkOption {
-      type = types.package;
-      default = pkgs.vintagestory-server;
-    };
-
-    user = mkOption {
-      type = types.str;
+    user = lib.mkOption {
+      type = lib.types.str;
       default = "vintagestory";
     };
 
-    group = mkOption {
-      type = types.str;
+    group = lib.mkOption {
+      type = lib.types.str;
       default = "vintagestory";
     };
 
-    dataPath = mkOption {
-      type = types.str;
+    dataPath = lib.mkOption {
+      type = lib.types.str;
       default = "/var/lib/vintagestory/data";
     };
   };
 
-  config = mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
     systemd.user.services.vintagestory-server = {
       enable = true;
       description = "Vintage Story Server";
@@ -57,14 +51,12 @@ in {
       vintagestory = {
         inherit (cfg) group;
         home = cfg.dataPath;
-        uid = config.ids.uids.vintagestory;
+        isSystemUser = true;
       };
     };
 
     users.groups = lib.mkIf (cfg.group == "vintagestory") {
-      vintagestory = {
-        gid = config.ids.gids.vintagestory;
-      };
+      vintagestory = {};
     };
   };
 }
