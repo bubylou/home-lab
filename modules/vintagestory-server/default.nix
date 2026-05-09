@@ -7,7 +7,7 @@
   cfg = config.home-lab.vintagestory-server;
   inherit (lib) mkIf mkOption types;
 in {
-  options.vintagestory-server = {
+  options.home-lab.vintagestory-server = {
     enable = mkOption {
       type = types.bool;
       default = false;
