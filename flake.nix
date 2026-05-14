@@ -31,6 +31,7 @@
       in {
         packages = rec {
           default = quien;
+          numa = pkgs.callPackage ./packages/numa {};
           quien = pkgs.callPackage ./packages/quien {};
           stump = pkgs.callPackage ./packages/stump {};
           vintagestory = pkgs.callPackage ./packages/vintagestory {};
@@ -43,6 +44,7 @@
         };
 
         checks = {
+          inherit (self.packages.${system}) numa;
           inherit (self.packages.${system}) quien;
           inherit (self.packages.${system}) stump;
           inherit (self.packages.${system}) vintagestory;
@@ -52,6 +54,7 @@
 
         apps = rec {
           default = quien;
+          numa = flake-utils.lib.mkApp {drv = self.packages.${system}.numa;};
           quien = flake-utils.lib.mkApp {drv = self.packages.${system}.quien;};
           stump = flake-utils.lib.mkApp {drv = self.packages.${system}.stump;};
           vintagestory = flake-utils.lib.mkApp {drv = self.packages.${system}.vintagestory;};
