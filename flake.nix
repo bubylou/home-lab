@@ -8,13 +8,7 @@
     nixpkgs,
     flake-utils,
   }:
-    {
-      nixosModules = rec {
-        default = vintagestory-server;
-        vintagestory-server = import ./modules/vintagestory-server;
-      };
-    }
-    // flake-utils.lib.eachDefaultSystem (
+    flake-utils.lib.eachDefaultSystem (
       system: let
         inherit (nixpkgs) lib;
         pkgs = import nixpkgs {
@@ -62,5 +56,11 @@
           vintagestory-wayland = flake-utils.lib.mkApp {drv = self.packages.${system}.vintagestory-wayland;};
         };
       }
-    );
+    )
+    // {
+      nixosModules = rec {
+        default = numa;
+        numa = import ./modules/numa;
+      };
+    };
 }
