@@ -62,5 +62,28 @@
         default = numa;
         numa = import ./modules/numa;
       };
+
+      nixosConfigurations.container = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          self.nixosModules.numa
+          ({pkgs, ...}: {
+            boot.isContainer = true;
+
+            networking = {
+              hostName = "testing";
+              firewall = {
+                allowedTCPPorts = [53];
+                allowedUDPPorts = [53];
+              };
+            };
+
+            services.numa = with self.packages.${pkgs.stdenv.hostPlatform.system}; {
+              enable = true;
+              package = numa;
+            };
+          })
+        ];
+      };
     };
 }
