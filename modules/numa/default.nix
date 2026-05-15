@@ -8,11 +8,7 @@
 in {
   options.services.numa = {
     enable = lib.mkEnableOption "enable numa service";
-
-    package = lib.mkOption {
-      type = lib.types.package;
-      default = pkgs.numa;
-    };
+    package = lib.mkPackageOption pkgs "numa" {};
 
     user = lib.mkOption {
       type = lib.types.str;
@@ -22,6 +18,41 @@ in {
     group = lib.mkOption {
       type = lib.types.str;
       default = "numa";
+    };
+
+    address = lib.mkOption {
+      type = lib.types.str;
+      default = "0.0.0.0";
+    };
+
+    port = lib.mkOption {
+      type = lib.types.port;
+      default = 53;
+    };
+
+    settings = lib.mkOption {
+      type = lib.types.attrs;
+      default = {
+        server = {
+          bind_addr = "${cfg.address}:${toString cfg.port}";
+          api_port = 5380;
+        };
+
+        cache = {
+          max_entries = 100000;
+          min_ttl = 60;
+          max_ttl = 86400;
+        };
+
+        proxy = {
+          enabled = true;
+          port = 80;
+          tls_port = 443;
+          tld = "numa";
+        };
+
+        mobile.enabled = true;
+      };
     };
   };
 
@@ -36,7 +67,7 @@ in {
         Type = "simple";
         ExecStart = ["${cfg.package}/bin/numa"];
         Restart = "always";
-        RestartSec = "2";
+        RestartSec = 2;
 
         User = cfg.user;
         Group = cfg.group;
@@ -50,16 +81,16 @@ in {
         ConfigurationDirectory = "numa";
         ConfigurationDirectoryMode = "0755";
 
-        NoNewPrivileges = "true";
+        NoNewPrivileges = true;
         ProtectSystem = "strict";
 
-        PrivateTmp = "true";
-        PrivateDevices = "true";
-        ProtectKernelTunables = "true";
-        ProtectKernelModules = "true";
-        ProtectControlGroups = "true";
-        RestrictRealtime = "true";
-        RestrictSUIDSGID = "true";
+        PrivateTmp = true;
+        PrivateDevices = true;
+        ProtectKernelTunables = true;
+        ProtectKernelModules = true;
+        ProtectControlGroups = true;
+        RestrictRealtime = true;
+        RestrictSUIDSGID = true;
         RestrictAddressFamilies = "AF_INET AF_INET6 AF_UNIX AF_NETLINK";
 
         StandardOutput = "journal";
@@ -67,6 +98,9 @@ in {
         SyslogIdentifier = "numa";
       };
     };
+
+    environment.etc."numa.toml".source = (pkgs.formats.toml {}).generate "numa.toml" cfg.settings;
+
     users.users = lib.mkIf (cfg.user == "numa") {
       numa = {
         inherit (cfg) group;
