@@ -46,6 +46,9 @@
           radarr = {
             imports = [ ./modules/radarr.nix ];
           };
+          sonarr = {
+            imports = [ ./modules/sonarr.nix ];
+          };
         };
 
       };
