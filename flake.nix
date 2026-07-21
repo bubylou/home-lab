@@ -41,16 +41,7 @@
           # packages.default = pkgs.hello;
         };
       flake = {
-        nixosModules = rec {
-          default = radarr;
-          radarr = {
-            imports = [ ./modules/radarr.nix ];
-          };
-          sonarr = {
-            imports = [ ./modules/sonarr.nix ];
-          };
-        };
-
+        imports = [ ./modules ];
       };
     };
 }
