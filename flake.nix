@@ -1,5 +1,5 @@
 {
-  description = "home-lab";
+  description = "home-lab services";
 
   inputs = {
     flake-parts.url = "github:hercules-ci/flake-parts";
@@ -41,9 +41,12 @@
           # packages.default = pkgs.hello;
         };
       flake = {
-        # The usual flake attributes can be defined here, including system-
-        # agnostic ones like nixosModule and system-enumerating ones, although
-        # those are more easily expressed in perSystem.
+        nixosModules = rec {
+          default = radarr;
+          radarr = {
+            imports = [ ./modules/radarr.nix ];
+          };
+        };
 
       };
     };
