@@ -45,6 +45,12 @@ in
         };
       };
 
+      blocky.settings.customDNS.mapping = [
+        {
+          cfg.url = cfg.address;
+        }
+      ];
+
       caddy = lib.mkIf cfg.enableProxy {
         virtualHosts."${cfg.url}" = {
           extraConfig = lib.mkDefault ''
