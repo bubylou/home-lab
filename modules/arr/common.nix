@@ -12,6 +12,7 @@ in
   options.home-lab.${name} = {
     enable = lib.mkEnableOption "enables ${name} service";
     enableProxy = lib.mkEnableOption "enables caddy reverse proxy";
+    enableStatus = lib.mkEnableOption "enables gatus status monitor";
 
     address = lib.mkOption {
       type = lib.types.str;
@@ -51,6 +52,19 @@ in
           '';
         };
       };
+
+      gatus.settings.endpoints = lib.mkIf cfg.enableStatus [
+        {
+          name = "${name}";
+          url = "http://${cfg.address}:${toString cfg.port}";
+          interval = "1m";
+          client.dns-resolver = "tcp://127.0.0.1:53";
+          conditions = [
+            "[STATUS] == 200"
+            "[RESPONSE_TIME] < 100"
+          ];
+        }
+      ];
     };
   };
 }
