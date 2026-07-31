@@ -11,6 +11,7 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         ./packages/quien
+        ./modules/radarr
       ];
       systems = [
         "x86_64-linux"
