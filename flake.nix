@@ -11,7 +11,11 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         ./packages/quien
-        ./modules/radarr
+        ./modules/arr/bazarr.nix
+        ./modules/arr/lidarr.nix
+        ./modules/arr/radarr.nix
+        ./modules/arr/sonarr.nix
+        ./modules/arr/prowlarr.nix
       ];
       systems = [
         "x86_64-linux"
