@@ -11,6 +11,7 @@
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         ./packages/quien
+        ./packages/aliasvault
       ];
       systems = [
         "x86_64-linux"
