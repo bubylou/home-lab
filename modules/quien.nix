@@ -6,7 +6,8 @@
     "aarch64-darwin"
   ];
 
-  perSystem = { pkgs, ... }: {
+  perSystem = { pkgs, ... }: rec {
+    checks.quien = packages.quien;
     packages.quien = pkgs.callPackage (
       {
         lib,
