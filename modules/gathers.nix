@@ -7,7 +7,6 @@
   ];
 
   perSystem = { pkgs, lib, ... }: rec {
-    checks.gathers-api = packages.gathers;
     packages =
       let
         pname = "gathers";
@@ -53,5 +52,23 @@
           }
         ) { };
       };
+
+    checks = {
+      gathers-api = packages.gathers-api;
+    };
+
+    apps = {
+      gathers-api = {
+        type = "app";
+        program = "${packages.gathers-api}/bin/server";
+        meta = packages.gathers-api.meta;
+      };
+
+      gathers-cli = {
+        type = "app";
+        program = "${packages.gathers-api}/bin/gathers";
+        meta = packages.gathers-api.meta;
+      };
+    };
   };
 }
