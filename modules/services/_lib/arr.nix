@@ -6,6 +6,7 @@
 {
   arrOptions = name: port: {
     enable = lib.mkEnableOption "Enables the ${name} service";
+    disableAuth = lib.mkEnableOption "Disables built-in authentication";
 
     address = lib.mkOption {
       type = lib.types.str;
@@ -53,6 +54,11 @@
             server = {
               bindaddress = cfg.address;
               inherit (cfg) port;
+            };
+
+            auth = lib.mkIf (cfg.proxy.enable && cfg.disableAuth) {
+              authenticationrequired = "DisabledForLocalAddresses";
+              method = "External";
             };
           };
         };
