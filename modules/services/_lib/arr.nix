@@ -64,8 +64,6 @@
         };
 
         caddy = lib.mkIf (cfg.proxy.server == "caddy") {
-          enable = lib.mkIf cfg.proxy.enable true;
-
           virtualHosts."${name}.${cfg.proxy.domain}".extraConfig = ''
             reverse_proxy http://${cfg.address}:${toString cfg.port}
           '';
