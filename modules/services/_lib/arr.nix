@@ -18,6 +18,26 @@
       default = port;
       example = 443;
     };
+
+    proxy = lib.mkOption {
+      type = lib.types.submodule {
+        options = {
+          enable = lib.mkEnableOption "Enables reverse proxy";
+
+          domain = lib.mkOption {
+            type = lib.types.str;
+            default = "localhost";
+            example = "example.com";
+          };
+
+          server = lib.mkOption {
+            type = lib.types.enum [ "caddy" ];
+            default = "caddy";
+            example = "";
+          };
+        };
+      };
+    };
   };
 
   arrConfig =
@@ -35,6 +55,14 @@
               inherit (cfg) port;
             };
           };
+        };
+
+        caddy = lib.mkIf (cfg.proxy.server == "caddy") {
+          enable = lib.mkIf cfg.proxy.enable true;
+
+          virtualHosts."${name}.${cfg.proxy.domain}".extraConfig = ''
+            reverse_proxy http://${cfg.address}:${toString cfg.port}
+          '';
         };
       };
     };
